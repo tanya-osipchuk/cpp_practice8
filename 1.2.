@@ -1,0 +1,78 @@
+#include <algorithm> 
+#include <cmath> 
+#include <vector> 
+#include <iostream>
+
+using namespace std;
+
+double StringToDouble(string st1) {
+	int mss = 0;
+	while (st1[mss] != '.') {
+		mss++;
+	}
+	int dcs = st1.size() - mss - 1;
+	bool decpart = true;
+	double k = 1, m = pow(10, -dcs), result = 0;
+	for (int i = st1.size() - 1; i >= 0; i--) {
+		if (isdigit(st1[i]) && decpart == true) {
+			result += (st1[i] - '0') * m;
+			m *= 10;
+		}
+		else if (isdigit(st1[i]) && decpart == false) {
+			result += (st1[i] - '0') * k;
+			k *= 10;
+		}
+		else {
+			decpart = false;
+		}
+	}
+
+	return result;
+}
+
+vector<string> StringToVector(string st1) {
+
+	vector<string>vec;
+	for (int i = 0; i < st1.size(); i++) {
+		string to_add = "";
+		char c = st1[i];
+		if (st1[i] == '+' || st1[i] == '-' || st1[i] == '*' || st1[i] == '/') {
+			to_add += st1[i];
+		}
+		else if (isdigit(c)) {
+			while (isdigit(st1[i])) {
+				to_add += st1[i];
+				i++;
+			}
+			i--;
+		}
+		else if (isalpha(c)) {
+			while (isalpha(st1[i])) {
+				to_add += st1[i];
+				i++;
+			}
+			i--;
+		}
+		vec.push_back(to_add);
+	}
+
+	return vec;
+}
+
+
+int main() {
+	string st1 = "";
+	cin >> st1;
+
+	cout << StringToDouble(st1) << endl;
+
+	string st2;
+	cin >> st2;
+
+	vector<string>ans = StringToVector(st2);
+	for (int i = 0; i < ans.size(); i++) {
+		cout << ans[i] << ' ';
+	}
+
+	return 0;
+}
